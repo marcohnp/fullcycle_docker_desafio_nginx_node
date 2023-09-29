@@ -1,7 +1,7 @@
 ## Desafio Nginx com Node.js ##
 Desafio para o módulo Docker do curso FullCycle 3.0
 
-**GitHub**: 
+**GitHub**: https://github.com/marcohnp/fullcycle_docker_desafio_nginx_node
 
 Use **docker-compose up -d --build**.
 
