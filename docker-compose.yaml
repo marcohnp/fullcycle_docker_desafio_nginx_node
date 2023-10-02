@@ -14,29 +14,19 @@ services:
     depends_on:
       - db
     command: sh -c "cd /usr/src/app && npm init -y && npm install express mysql2 faker@5.5.3 && chmod +x wait-for-it.sh && ./wait-for-it.sh -t 15 db:3306 -- node index.js"
-
     
   db:
     image: mysql:8.1
-    command: --innodb-use-native-aio=0
+    command: --innodb-use-native-aio=0 && bash -c "sleep 10 && mysql -h db -u root -proot < /docker-entrypoint-initdb.d/init.sql"
     container_name: db
     restart: always
     tty: true
     volumes:
       - ./mysql:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       - MYSQL_DATABASE=nodedb
       - MYSQL_ROOT_PASSWORD=root
-    networks:
-      - nodenetwork
-  
-  init_db:
-    image: mysql:8.1
-    command: bash -c "sleep 10 && mysql -h db -u root -proot < /docker-entrypoint-initdb.d/init.sql"
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    depends_on:
-      - db
     networks:
       - nodenetwork
 
